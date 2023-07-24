@@ -1,51 +1,43 @@
 #include "main.h"
 /**
- * _printf - Custom implementation of printf function with C
- * @format: Format string
- *
- * Return: Number of characters printed
- * (excluding the null byte used to end output to strings)
+ * _printf - print the right caracter
+ * @format: identifier to look for in the string.
+ * Return: the length of the string.
  */
-int _printf(const char *format, ...)
+int _printf(const char * const format, ...)
 {
-int i = 0, count = 0;
-va_list args;
+	convert_match m[] = {
+		{"%s", printf_string}, {"%c", printf_char},
+		{"%%", printf_37},
+		{"%i", printf_int}, {"%d", printf_dec}, {"%r", printf_srev},
+		{"%R", printf_rot13}, {"%b", printf_bin}, {"%u", printf_unsigned},
+		{"%o", printf_oct}, {"%x", printf_hex}, {"%X", printf_HEX},
+		{"%S", printf_exclusive_string}, {"%p", printf_pointer}
+	};
 
-va_start(args, format);
-for (i = 0; format[i] != '\0'; i++)
-{
-if (format[i] == '%')
-{
-i++;
-switch (format[i])
-{
-case 'c':
-{
-count += _putchar((char)va_arg(args, int));
-break;
-}
-case 's':
-{
-count += _putstr((char *)va_arg(args, char *));
-break;
-}
-case 'd':
-case 'i':
-{
-count += _putnum(va_arg(args, int));
-break;
-}
-default:
-count += _putchar(format[i]);
-break;
-}
-}
-else
-{
-_putchar(format[i]);
-count++;
-}
-}
-va_end(args);
-return (count);
+	va_list args;
+	int i = 0, j, len = 0;
+
+	va_start(args, format);
+	if (format == NULL || (format[0] == '%' && format[1] == '\0'))
+		return (-1);
+	while (format[i] != '\0')
+	{
+		j = 13;
+		while (j >= 0)
+		{
+			if (m[j].id[0] == format[i] && m[j].id[1] == format[i + 1])
+			{
+				len += m[j].f(args);
+				i = i + 2;
+				goto Here;
+			}
+			j--;
+		}
+		_putchar(format[i]);
+		len++;
+		i++;
+	}
+	va_end(args);
+	return (len);
 }
