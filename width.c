@@ -15,7 +15,7 @@ int get_width(const char *format, int *pi, va_list lst)
 	{
 		if (is_digit(format[p]))
 		{
-			p = p * 10;
+			width = width * 10;
 			width += format[p] - '0';
 		}
 		else if (format[p] == "*")
