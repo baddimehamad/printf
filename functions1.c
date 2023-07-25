@@ -9,7 +9,7 @@
  * @size: the Size
  * Return: value
  */
-int print_octal(va_list types, int the_width, char buffer_chars[], int the_flags, int the_size, int the_precision)
+int print_octal(va_list types, char buffer_chars[], int the_flags,  int the_width,int the_size, int the_precision)
 {
 
 	int i = BUFF_SIZE - 2;
@@ -18,7 +18,7 @@ int print_octal(va_list types, int the_width, char buffer_chars[], int the_flags
 
 	UNUSED(the_width);
 
-	num = convert_size_unsgnd(num, size);
+	num = convert_size_unsgnd(num, the_size);
 
 	if (num == 0)
 		buffer_chars[i--] = '0';
@@ -49,7 +49,7 @@ int print_octal(va_list types, int the_width, char buffer_chars[], int the_flags
  * @size: the Size
  * Return: value
  */
-int print_hexadecimal(va_list types, int the_width, char buffer_chars[], int the_flags, int the_size, int the_precision)
+int print_hexadecimal(va_list types, char buffer_chars[], int the_flags,  int the_width,int the_size, int the_precision)
 {
 	return (print_hexa(types, "0123456789abcdef", buffer_chars,the_flags, 'x', the_width, the_precision, the_size));
 }
@@ -63,7 +63,7 @@ int print_hexadecimal(va_list types, int the_width, char buffer_chars[], int the
  * @size: the Size
  * Return: value
  */
-int print_hexa_upper(va_list types, int the_width, char buffer_chars[], int the_flags, int the_size, int the_precision)
+int print_hexa_upper(va_list types, char buffer_chars[], int the_flags,  int the_width,int the_size, int the_precision)
 {
 	return (print_hexa(types, "0123456789ABCDEF", buffer_chars,the_flags, 'X', the_width, the_precision, the_size));
 }
@@ -77,7 +77,7 @@ int print_hexa_upper(va_list types, int the_width, char buffer_chars[], int the_
  * @size: the Size
  * Return: value
  */
-int print_unsigned(va_list types, int the_width, char buffer_chars[], int the_flags, int the_size, int the_precision)
+int print_unsigned(va_list types, char buffer_chars[], int the_flags,  int the_width,int the_size, int the_precision)
 {
 	int i = BUFF_SIZE - 2;
 	unsigned long int num = va_arg(types, unsigned long int);
@@ -113,7 +113,7 @@ int print_unsigned(va_list types, int the_width, char buffer_chars[], int the_fl
  * @flag_ch: Calculates active flags
  * Return: value
  */
-int print_hexa(va_list types, char the_flag_ch, int the_width, char buffer_chars[], int the_flags, char map_to[], int the_size, int the_precision)
+int print_hexa(va_list types, char map_to[], char buffer_chars[],int the_flags, char the_flag_ch, int the_width, int the_precision, int the_size)
 {
 	int i = BUFF_SIZE - 2;
 	unsigned long int num = va_arg(types, unsigned long int);

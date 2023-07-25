@@ -10,7 +10,7 @@
  * @size: the Size
  * Return: Number of chars printed
  */
-int print_percent(va_list types, int the_width, char buffer_chars[], int the_flags, int the_size, int the_precision)
+int print_percent(va_list types, char buffer_chars[], int the_flags,  int the_width,int the_size, int the_precision)
 {
 	UNUSED(the_width);
 	UNUSED(buffer_chars);
@@ -30,7 +30,7 @@ int print_percent(va_list types, int the_width, char buffer_chars[], int the_fla
  * @size: the Size
  * Return: characters printed
  */
-int print_string(va_list types, int the_width, char buffer_chars[], int the_flags, int the_size, int the_precision)
+int print_string(va_list types, char buffer_chars[], int the_flags,  int the_width,int the_size, int the_precision)
 {
 	int length = 0, i;
 	char *the_string = va_arg(types, char *);
@@ -73,7 +73,7 @@ int print_string(va_list types, int the_width, char buffer_chars[], int the_flag
 		}
 	}
 
-	return (write(1, str, length));
+	return (write(1, the_string, length));
 }
 /**
  * print_char - Prints a character
@@ -85,7 +85,7 @@ int print_string(va_list types, int the_width, char buffer_chars[], int the_flag
  * @size: the Size
  * Return: Number of chars printed
  */
-int print_char(va_list types, int the_width, char buffer_chars[], int the_flags, int the_size, int the_precision)
+int print_char(va_list types, char buffer_chars[], int the_flags,  int the_width,int the_size, int the_precision)
 {
 	char c = va_arg(types, int);
 	return (handle_write_char(c, buffer_chars, the_flags, the_width, the_precision, the_size));
@@ -101,19 +101,19 @@ int print_char(va_list types, int the_width, char buffer_chars[], int the_flags,
  * @size: the Size
  * Return: it returns number of the printed caracters
  */
-int print_int(va_list types, int the_width, char buffer_chars[], int the_flags, int the_size, int the_precision)
+int print_int(va_list types, char buffer_chars[], int the_flags,  int the_width,int the_size, int the_precision)
 {
 	int i = BUFF_SIZE - 2;
 	int is_negative = 0;
 	long int n = va_arg(types, long int);
 	unsigned long int num;
 
-	n = convert_size_number(n, size);
+	n = convert_size_number(n, the_size);
 
 	if (n == 0)
-		buffer[i--] = '0';
+		buffer_chars[i--] = '0';
 
-	buffer[BUFF_SIZE - 1] = '\0';
+	buffer_chars[BUFF_SIZE - 1] = '\0';
 	num = (unsigned long int)n;
 
 	if (n < 0)
@@ -124,7 +124,7 @@ int print_int(va_list types, int the_width, char buffer_chars[], int the_flags, 
 
 	while (num > 0)
 	{
-		buffer[i--] = (num % 10) + '0';
+		buffer_chars[i--] = (num % 10) + '0';
 		num /= 10;
 	}
 
@@ -143,7 +143,7 @@ int print_int(va_list types, int the_width, char buffer_chars[], int the_flags, 
  * @size: the Size
  * Return: Numbers of char printed.
  */
-int print_binary(va_list types, int the_width, char buffer_chars[], int the_flags, int the_size, int the_precision)
+int print_binary(va_list types, char buffer_chars[], int the_flags,  int the_width,int the_size, int the_precision)
 {
 	unsigned int i,n,sum,m;
 	unsigned int a[32];

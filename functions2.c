@@ -9,7 +9,7 @@
  * @size: the Size
  * Return: value
  */
-int print_pointer(va_list types, int the_width, char buffer_chars[], int the_flags, int the_size, int the_precision)
+int print_pointer(va_list types, char buffer_chars[], int the_flags,  int the_width,int the_size, int the_precision)
 {
 	char ex_c = 0, p_add = ' ';
 	int ind = BUFF_SIZE - 2, length = 2, p_add_start = 1;
@@ -56,7 +56,7 @@ int print_pointer(va_list types, int the_width, char buffer_chars[], int the_fla
  * @size: the Size
  * Return: value
  */
-int print_non_printable(va_list types, int the_width, char buffer_chars[], int the_flags, int the_size, int the_precision)
+int print_non_printable(va_list types, char buffer_chars[], int the_flags,  int the_width,int the_size, int the_precision)
 {
 	int i = 0, offset_v = 0;
 	char *str = va_arg(types, char *);
@@ -85,53 +85,6 @@ int print_non_printable(va_list types, int the_width, char buffer_chars[], int t
 	return (write(1, buffer_chars, i + offset_v));
 }
 /**
- * print_pointer - this function Prints a value of the pointer variable
- * @precision: specify the Precision
- * @types: the arguments
- * @flags:  calc the flags
- * @buffer: the buffer that handel print
- * @width: the Width
- * @size: the Size
- * Return: value
- */
-int print_pointer(va_list types, int the_width, char buffer_chars[], int the_flags, int the_size, int the_precision)
-{
-	char ex_c = 0, p_add = ' ';
-	int ind = BUFF_SIZE - 2, length = 2, p_add_start = 1;
-	unsigned long num_addrs;
-	char map_to[] = "0123456789abcdef";
-	void *addrs = va_arg(types, void *);
-
-	UNUSED(the_width);
-	UNUSED(the_size);
-
-	if (addrs == NULL)
-		return (write(1, "(nil)", 5));
-
-	buffer_chars[BUFF_SIZE - 1] = '\0';
-	UNUSED(the_precision);
-
-	num_addrs = (unsigned long)addrs;
-
-	while (num_addrs > 0)
-	{
-		buffer_chars[ind--] = map_to[num_addrs % 16];
-		num_addrs /= 16;
-		length++;
-	}
-
-	if ((the_flags & F_ZERO) && !(the_flags & F_MINUS))
-		p_add = '0';
-	if (the_flags & F_PLUS)
-		ex_c = '+', length++;
-	else if (the_flags & F_SPACE)
-		ex_c = ' ', length++;
-
-	ind++;
-
-	return (write_pointer(buffer_chars, ind, length,the_width, the_flags, p_add, ex_c, p_add_start));
-}
-/**
  * print_rot13string - Print a string in rot13.
  * @precision: specify the Precision
  * @types: the arguments
@@ -141,7 +94,7 @@ int print_pointer(va_list types, int the_width, char buffer_chars[], int the_fla
  * @size: the Size
  * Return: value
  */
-int print_rot13string(va_list types, int the_width, char buffer_chars[], int the_flags, int the_size, int the_precision)
+int print_rot13string(va_list types, char buffer_chars[], int the_flags,  int the_width,int the_size, int the_precision)
 {
 	char x;
 	char *str_v;
@@ -192,7 +145,7 @@ int print_rot13string(va_list types, int the_width, char buffer_chars[], int the
  * Return: value
  */
 
-int print_reverse(va_list types, int the_width, char buffer_chars[], int the_flags, int the_size, int the_precision)
+int print_reverse(va_list types, char buffer_chars[], int the_flags,  int the_width,int the_size, int the_precision)
 {
 	char *str_v;
 	int i, count = 0;

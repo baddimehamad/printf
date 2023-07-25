@@ -7,7 +7,7 @@
  *
  * Return: precision
  */
-int get_precision(const char *format, int *pi, va_list lst)
+int get_precision(const char *format, int *pi, va_list list)
 {
 	int p, precision = -1;
 
@@ -22,10 +22,10 @@ int get_precision(const char *format, int *pi, va_list lst)
 			precision *= 10;
 			precision += format[p] - '0';
 		}
-		else if (fromat[p] == '*')
+		else if (format[p] == '*')
 		{
 			p++;
-			precision += va_arg(lst, int);
+			precision += va_arg(list, int);
 			break;
 		}
 		else

@@ -1,4 +1,4 @@
-#incude "main.h"
+#include "main.h"
 /**
  * handle_print - Prints an argument based on its type
  * @fmt: Formatted string in which to print the arguments.
@@ -12,7 +12,7 @@
  *
  * Return: 1 or 2;
  */
-int handle_print(const char *fmt, int *i, va_list lst,
+int handle_print(const char *fmt, int *i, va_list list,
 		char buff[], int flag, int width, int size, int precision)
 {
 	int p, chars = -1, len = 0;
@@ -26,8 +26,8 @@ int handle_print(const char *fmt, int *i, va_list lst,
 	};
 	for (p = 0; fmt_types[p].fmt != '\0'; p++)
 	{
-		if (fmt[*i] == fmt_types[i].fmt)
-			return (fmt_types[p].fn(buff, lst, flag, width, size, precision));
+		if (fmt[*i] == fmt_types[p].fmt)
+			return (fmt_types[p].fn(list,buff, flag, width, size, precision));
 	}
 	if (fmt_types[p].fmt == '\0')
 	{
