@@ -22,7 +22,7 @@ int get_precision(const char *format, int *pi, va_list lst)
 			precision *= 10;
 			precision += format[p] - '0';
 		}
-		else if (fromat[p] == '*')
+		else if (format[p] == '*')
 		{
 			p++;
 			precision += va_arg(lst, int);

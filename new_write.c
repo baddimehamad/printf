@@ -199,8 +199,8 @@ int write_unsgnd(int is_negative, int i, char buff[], int flags,
 	int len = BUFF_SIZE - i - 1;
 	int x;
 
-	UNUSE(size);
-	UNUSE(is_negative);
+	UNUSED(size);
+	UNUSED(is_negative);
 	if (precision == 0 && i == BUFF_SIZE - 2 && buff[i] == '0')
 		return (0);
 	if (precision < len && precision > 0)
