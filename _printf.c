@@ -1,17 +1,18 @@
 #include "main.h"
 
-void print_buffer_of_string(char buffer[], int *buff_nd);
+void print_buffer_for_printf(char buffer[], int *buff_ind);
 
 /**
- * _printf - Printf function
+ * _printf - this is the Printf function
  * @format: format.
- * Return: Printed characters.
+ * Return: the string printed.
  */
 int _printf(const char *format, ...)
 {
-	int i, printed = 0, the_precision, the_size, the_flags, the_width, printed_characters = 0, buff_nd = 0;
+	int i, printed = 0, printed_chars = 0;
+	int flags, width, precision, size, buff_ind = 0;
 	va_list list;
-	char buffer_ch[BUFF_SIZE];
+	char buffer[BUFF_SIZE];
 
 	if (format == NULL)
 		return (-1);
@@ -22,48 +23,43 @@ int _printf(const char *format, ...)
 	{
 		if (format[i] != '%')
 		{
-			buffer_ch[buff_nd++] = format[i];
-			if (buff_nd == BUFF_SIZE)
-			{
-				print_buffer_of_string(buffer_ch, &buff_nd);
-			}
-
-			printed_characters++;
+			buffer[buff_ind++] = format[i];
+			if (buff_ind == BUFF_SIZE)
+				print_buffer_for_printf(buffer, &buff_ind);
+			printed_chars++;
 		}
 		else
 		{
-			print_buffer_of_string(buffer_ch, &buff_nd);
-			the_flags = get_flags(format, &i);
-			the_width = get_width(format, &i, list);
-			the_precision = get_precision(format, &i, list);
-			the_size = get_size(format, &i);
+			print_buffer_for_printf(buffer, &buff_ind);
+			flags = get_flags(format, &i);
+			width = get_width(format, &i, list);
+			precision = get_precision(format, &i, list);
+			size = get_size(format, &i);
 			++i;
-			printed = handle_print(format, &i, list, buffer_ch, the_flags, the_width, the_precision, the_size);
+			printed = handle_print(format, &i, list, buffer,
+				flags, width, precision, size);
 			if (printed == -1)
-			{
 				return (-1);
-			}
-			printed_characters += printed;
+			printed_chars += printed;
 		}
 	}
 
-	print_buffer_of_string(buffer_ch, &buff_nd);
+	print_buffer_for_printf(buffer, &buff_ind);
 
 	va_end(list);
 
-	return (printed_characters);
+	return (printed_chars);
 }
 
 /**
- * print_buffer_of_string - print give result if exist any character
- * @buffer: Array of characters
- * @buff_nd: the index that show all characters.
+ * print_buffer - Prints the contents of the buffer if it exist
+ * @buffer: Array of chars
+ * @buff_ind: Index at which to add next char, represents the length.
  */
-void print_buffer_of_string(char buffer[], int *buff_nd)
+void print_buffer_for_printf(char buffer[], int *buff_ind)
 {
-	if (*buff_nd > 0)
-	{
-		write(1, &buffer[0], *buff_nd);
-	}
-	*buff_nd = 0;
+	if (*buff_ind > 0)
+		write(1, &buffer[0], *buff_ind);
+
+	*buff_ind = 0;
 }
