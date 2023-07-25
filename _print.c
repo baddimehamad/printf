@@ -27,8 +27,8 @@ int handle_print(const char *fmt, int *i, va_list lst,
 	};
 	for (p = 0; fmt_types[p].fmt != '\0'; p++)
 	{
-		if (fmt[*i] == fmt_types[i].fmt)
-			return (fmt_types[p].fn(buff, lst, flag, width, size, precision));
+		if (fmt[*i] == fmt_types[p].fmt)
+			return (fmt_types[p].fn(lst, buff, flag, width, size, precision));
 	}
 	if (fmt_types[p].fmt == '\0')
 	{

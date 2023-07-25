@@ -21,7 +21,7 @@ int handle_write_char(char s, char buff[],
 
 	if (flags & F_ZERO)
 		r = '0';
-	buff[i++] = c;
+	buff[i++] = s;
 	buff[i] = '\0';
 	if (width > 1)
 	{
@@ -30,7 +30,7 @@ int handle_write_char(char s, char buff[],
 			buff[BUFF_SIZE - i - 2] = r;
 		if (flags & F_MINUS)
 			return (write(1, &buff[0], 1)
-					+ write(1, 1buff[BUFF_SIZE - i - 1], 1));
+					+ write(1, &buff[BUFF_SIZE - i - 1], 1));
 		else
 			return (write(1, &buff[BUFF_SIZE - i - 1], width - 1)
 					+ write(1, &buff[0], 1));
@@ -73,7 +73,7 @@ int write_num(int i, char buff[], int flags,
 		if ((flags & F_MINUS) && p == ' ')
 		{
 			if (c)
-				buff[--i] == c;
+				buff[--i] = c;
 			return (write(1, &buff[i], len) + write(1, &buff[1], x - 1));
 		}
 		else if (!(flags & F_MINUS) && (p == '0'))

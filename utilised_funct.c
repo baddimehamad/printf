@@ -22,6 +22,8 @@ int is_printable(char s)
  */
 int append_hexa_code(char ascii, char buff[], int i)
 {
+	char map_to[] = "0123456789ABCDE";
+
 	if (ascii < 0)
 		ascii *= -1;
 	buff[i++] = '\\';
