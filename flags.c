@@ -1,4 +1,4 @@
-#inlcude "main.h"
+#include "main.h"
 /**
  * get_flags - handles active flags
  * @format: formatted string
