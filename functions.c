@@ -1,17 +1,107 @@
 #include "main.h"
 
 /**
- * print_int - Print int
- * @types: Lista of arguments
- * @buffer: Buffer array to handle print
- * @flags:  Calculates active flags
- * @width: get width.
- * @precision: Precision specification
- * @size: Size specifier
+ * print_percent - this function print just the percent sign (%)
+ * @precision: specify the Precision
+ * @types: the arguments
+ * @flags:  calc the flags
+ * @buffer: the buffer that handel print
+ * @width: the Width
+ * @size: the Size
  * Return: Number of chars printed
  */
-int print_int(va_list types, char buffer[],
-	int flags, int width, int precision, int size)
+int print_percent(va_list types, int the_width, char buffer_chars[], int the_flags, int the_size, int the_precision)
+{
+	UNUSED(the_width);
+	UNUSED(buffer_chars);
+	UNUSED(the_flags);
+	UNUSED(the_size);
+	UNUSED(the_precision);
+	UNUSED(types);
+	return (write(1, "%%", 1));
+}
+/**
+ * print_string - Prints a string
+ * @precision: specify the Precision
+ * @types: the arguments
+ * @flags:  calc the flags
+ * @buffer: the buffer that handel print
+ * @width: the Width
+ * @size: the Size
+ * Return: characters printed
+ */
+int print_string(va_list types, int the_width, char buffer_chars[], int the_flags, int the_size, int the_precision)
+{
+	int length = 0, i;
+	char *the_string = va_arg(types, char *);
+
+	UNUSED(the_width);
+	UNUSED(buffer_chars);
+	UNUSED(the_flags);
+	UNUSED(the_size);
+	UNUSED(the_precision);
+	if (the_string == NULL)
+	{
+		the_string = "(null)";
+		if (the_precision >= 6)
+			the_string = "      ";
+	}
+
+	while (the_string[length] != '\0')
+		length++;
+
+	if (the_precision >= 0 && the_precision < length)
+	{
+		length = the_precision;
+	}
+
+	if (the_width > length)
+	{
+		if (the_flags & F_MINUS)
+		{
+			write(1, &the_string[0], length);
+			for (i = the_width - length; i > 0; i--)
+				write(1, " ", 1);
+			return (the_width);
+		}
+		else
+		{
+			for (i = the_width - length; i > 0; i--)
+				write(1, " ", 1);
+			write(1, &the_string[0], length);
+			return (the_width);
+		}
+	}
+
+	return (write(1, str, length));
+}
+/**
+ * print_char - Prints a character
+ * @precision: specify the Precision
+ * @types: the arguments
+ * @flags:  calc the flags
+ * @buffer: the buffer that handel print
+ * @width: the Width
+ * @size: the Size
+ * Return: Number of chars printed
+ */
+int print_char(va_list types, int the_width, char buffer_chars[], int the_flags, int the_size, int the_precision)
+{
+	char c = va_arg(types, int);
+	return (handle_write_char(c, buffer_chars, the_flags, the_width, the_precision, the_size));
+}
+
+/**
+ * print_int - Print int
+ * @precision: specify the Precision
+ * @types: the arguments
+ * @flags:  calc the flags
+ * @buffer: the buffer that handel print
+ * @width: the Width
+ * @size: the Size
+ * Return: it returns number of the printed caracters
+ */
+int print_int(va_list types, int the_width, char buffer_chars[], int the_flags, int the_size, int the_precision)
 {
 	int i = BUFF_SIZE - 2;
 	int is_negative = 0;
@@ -40,129 +130,34 @@ int print_int(va_list types, char buffer[],
 
 	i++;
 
-	return (write_number(is_negative, i, buffer, flags, width, precision, size));
-}
-
-
-/**
- * print_string - Prints a string
- * @types: List a of arguments
- * @buffer: Buffer array to handle print
- * @flags:  Calculates active flags
- * @width: get width.
- * @precision: Precision specification
- * @size: Size specifier
- * Return: Number of chars printed
- */
-int print_string(va_list types, char buffer[],
-	int flags, int width, int precision, int size)
-{
-	int length = 0, i;
-	char *str = va_arg(types, char *);
-
-	UNUSED(buffer);
-	UNUSED(flags);
-	UNUSED(width);
-	UNUSED(precision);
-	UNUSED(size);
-	if (str == NULL)
-	{
-		str = "(null)";
-		if (precision >= 6)
-			str = "      ";
-	}
-
-	while (str[length] != '\0')
-		length++;
-
-	if (precision >= 0 && precision < length)
-		length = precision;
-
-	if (width > length)
-	{
-		if (flags & F_MINUS)
-		{
-			write(1, &str[0], length);
-			for (i = width - length; i > 0; i--)
-				write(1, " ", 1);
-			return (width);
-		}
-		else
-		{
-			for (i = width - length; i > 0; i--)
-				write(1, " ", 1);
-			write(1, &str[0], length);
-			return (width);
-		}
-	}
-
-	return (write(1, str, length));
-}
-/**
- * print_percent - Prints a percent sign
- * @types: Lista of arguments
- * @buffer: Buffer array to handle print
- * @flags:  Calculates active flags
- * @width: get width.
- * @precision: Precision specification
- * @size: Size specifier
- * Return: Number of chars printed
- */
-int print_percent(va_list types, char buffer[],
-	int flags, int width, int precision, int size)
-{
-	UNUSED(types);
-	UNUSED(buffer);
-	UNUSED(flags);
-	UNUSED(width);
-	UNUSED(precision);
-	UNUSED(size);
-	return (write(1, "%%", 1));
+	return (write_number(is_negative, i, buffer_chars, the_flags, the_width, the_precision, the_size));
 }
 
 /**
- * print_char - Prints a chararacter
- * @types: List a of arguments
- * @buffer: Buffer array to handle print
- * @flags:  Calculates active flags
- * @width: Width
- * @precision: Precision specification
- * @size: Size specifier
- * Return: Number of chararacters printed
- */
-int print_char(va_list types, char buffer[],
-	int flags, int width, int precision, int size)
-{
-	char c = va_arg(types, int);
-
-	return (handle_write_char(c, buffer, flags, width, precision, size));
-}
-
-/**
- * print_binary - Prints an unsigned number
- * @types: Lista of arguments
- * @buffer: Buffer array to handle print
- * @flags:  Calculates active flags
- * @width: get width.
- * @precision: Precision specification
- * @size: Size specifier
+ * print_binary - this function print the unsigned numbers
+ * @precision: specify the Precision
+ * @types: the arguments
+ * @flags:  calc the flags
+ * @buffer: the buffer that handel print
+ * @width: the Width
+ * @size: the Size
  * Return: Numbers of char printed.
  */
-int print_binary(va_list types, char buffer[],
-	int flags, int width, int precision, int size)
+int print_binary(va_list types, int the_width, char buffer_chars[], int the_flags, int the_size, int the_precision)
 {
-	unsigned int n, m, i, sum;
+	unsigned int i,n,sum,m;
 	unsigned int a[32];
 	int count;
 
-	UNUSED(buffer);
-	UNUSED(flags);
-	UNUSED(width);
-	UNUSED(precision);
-	UNUSED(size);
+	UNUSED(buffer_chars);
+	UNUSED(the_flags);
+	UNUSED(the_width);
+	UNUSED(the_precision);
+	UNUSED(the_size);
 
 	n = va_arg(types, unsigned int);
-	m = 2147483648; /* (2 ^ 31) */
+	/* the total of 2^31 = 2147483648*/
+	m = 2147483648;
 	a[0] = n / m;
 	for (i = 1; i < 32; i++)
 	{
