@@ -8,8 +8,8 @@
  */
 int get_flags(const char *format, int *p)
 {
-	const char FLAGS_C = {'0', '+', '-', ' ', '#', '\0'};
-	const int FAGS_AR = {F_MINUS, F_PLUS, F_ZERO, F_HASH, F_SPACE, 0};
+	const char FLAGS_C[] = {'0', '+', '-', ' ', '#', '\0'};
+	const int FLAGS_AR[] = {F_MINUS, F_PLUS, F_ZERO, F_HASH, F_SPACE, 0};
 	int i, pi, flag = 0;
 
 	for (pi = *p + 1; format[pi] != '\0'; pi++)
